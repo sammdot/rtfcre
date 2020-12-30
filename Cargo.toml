@@ -1,0 +1,36 @@
+[package]
+name = "rtfcre"
+version = "0.1.0"
+authors = ["Sammi De Guzman <sammi@sammdot.ca>"]
+edition = "2018"
+
+[lib]
+name = "rtfcre"
+crate_type = ["cdylib"]
+
+[dependencies]
+linked-hash-map = "0.5.3"
+lazy_static = "1.4.0"
+regex = "1.4.2"
+nom = "6"
+serde_json = "1.0.59"
+
+[dependencies.pyo3]
+version = "0.13.0"
+features = ["extension-module"]
+
+[package.metadata.rtfcre]
+keywords = ["plover", "plover_plugin"]
+requires-dist = ["plover>=4.0.0.dev8"]
+
+[package.metadata.rtfcre.options.entry_points]
+plover.dictionary = {"rtf" = "rtfcre.RtfDictionary"}
+
+[dev-dependencies]
+criterion = "0.3.3"
+rand = "0.8.0"
+
+[[bench]]
+name = "bench"
+path = "src/bench.rs"
+harness = false
