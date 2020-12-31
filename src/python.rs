@@ -70,6 +70,18 @@ impl RtfDictionary {
     Ok(self.dict.longest_key)
   }
 
+  /// lookup(self, steno, /)
+  /// --
+  ///
+  /// Return a tuple of the translation and the comment for the given steno
+  /// stroke, or None if not available.
+  fn lookup(&self, steno: &str) -> PyResult<Option<(String, Option<String>)>> {
+    match self.dict.entry(steno) {
+      Some(entry) => Ok(Some((entry.translation.clone(), entry.comment()))),
+      None => Ok(None),
+    }
+  }
+
   /// reverse_lookup(self, translation, /)
   /// --
   ///
@@ -78,6 +90,36 @@ impl RtfDictionary {
     match self.dict.rev_lookup(translation) {
       Some(strokes) => Ok(strokes),
       None => Ok(vec![]),
+    }
+  }
+
+  /// add_comment(self, steno, comment, /)
+  /// --
+  ///
+  /// Add a comment to the entry for the given steno stroke, or raise a
+  /// KeyError if not available.
+  fn add_comment(&mut self, steno: &str, comment: &str) -> PyResult<()> {
+    match self.dict.entry_mut(steno) {
+      Some(entry) => {
+        entry.add_comment(comment);
+        Ok(())
+      },
+      None => Err(PyKeyError::new_err(steno.to_string())),
+    }
+  }
+
+  /// remove_comment(self, steno, /)
+  /// --
+  ///
+  /// Remove the comment from the entry for the given steno stroke, or raise a
+  /// KeyError if not available.
+  fn remove_comment(&mut self, steno: &str) -> PyResult<()> {
+    match self.dict.entry_mut(steno) {
+      Some(entry) => {
+        entry.remove_comment();
+        Ok(())
+      },
+      None => Err(PyKeyError::new_err(steno.to_string())),
     }
   }
 
@@ -205,6 +247,15 @@ fn loads(string: &str) -> PyResult<RtfDictionary> {
 ///     False
 ///     >>> dict.reverse_lookup("cat")
 ///     ["KAT"]
+///
+/// Accessing entry comments:
+///
+///     >>> dict.add_comment("TKOG", "TK means D")
+///     >>> translation, comment = dict.lookup("TKOG")
+///     >>> comment
+///     "TK means D"
+///     >>> dict.remove_comment("TKOG")
+///
 fn rtfcre(_: Python, m: &PyModule) -> PyResult<()> {
   m.add_function(wrap_pyfunction!(load, m)?)?;
   m.add_function(wrap_pyfunction!(loads, m)?)?;

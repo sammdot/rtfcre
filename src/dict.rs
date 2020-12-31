@@ -37,6 +37,14 @@ impl Entry {
     Some(self.metadata.as_ref()?.comment.as_ref()?.clone())
   }
 
+  pub fn add_comment(&mut self, comment: &str) {
+    self.metadata = Some(EntryMetadata { comment: Some(comment.to_string()) });
+  }
+
+  pub fn remove_comment(&mut self) {
+    self.metadata = None;
+  }
+
   pub fn write(&self, writer: &mut dyn io::Write) -> Result<(), io::Error> {
     write!(writer, "{{\\*\\cxs {}}}{}{}\n",
       self.steno, format_plover_to_rtf(&self.translation),
@@ -148,6 +156,10 @@ impl Dictionary {
 
   pub fn entry(&self, steno: &str) -> Option<&Entry> {
     Some(self.entries.get(steno)?)
+  }
+
+  pub fn entry_mut(&mut self, steno: &str) -> Option<&mut Entry> {
+    Some(self.entries.get_mut(steno)?)
   }
 }
 
