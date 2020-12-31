@@ -1,5 +1,5 @@
 name: build
-on: [push, pull_request]
+on: release
 jobs:
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
