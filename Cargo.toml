@@ -20,6 +20,12 @@ lazy_static = "1.4.0"
 regex = "1.4.2"
 nom = "6"
 pyo3-file = "0.3.3"
+structopt = "0.3.13"
+termcolor = "1.1.2"
+
+[dependencies.serde_json]
+version = "1.0"
+features = ["preserve_order"]
 
 [dependencies.pyo3]
 version = "0.12.4"
