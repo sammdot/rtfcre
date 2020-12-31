@@ -1,6 +1,6 @@
 # rtfcre
 
-![pypi](https://img.shields.io/pypi/v/rtfcre)
+[![pypi](https://img.shields.io/pypi/v/rtfcre)](https://pypi.org/project/rtfcre)
 ![python](https://img.shields.io/pypi/pyversions/rtfcre)
 ![build](https://github.com/sammdot/rtfcre/workflows/build/badge.svg)
 
