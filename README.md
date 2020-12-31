@@ -2,7 +2,7 @@
 
 [![pypi](https://img.shields.io/pypi/v/rtfcre)](https://pypi.org/project/rtfcre)
 ![python](https://img.shields.io/pypi/pyversions/rtfcre)
-![build](https://github.com/sammdot/rtfcre/workflows/build/badge.svg)
+![tests](https://github.com/sammdot/rtfcre/workflows/tests/badge.svg)
 
 `rtfcre` is a Python library for reading and writing steno dictionaries in the
 [RTF/CRE](http://www.legalxml.org/workgroups/substantive/transcripts/cre-spec.htm)
