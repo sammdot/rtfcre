@@ -14,7 +14,6 @@ lazy_static = "1.4.0"
 regex = "1.4.2"
 nom = "6"
 pyo3-file = "0.3.3"
-serde_json = "1.0.59"
 
 [dependencies.pyo3]
 version = "0.12.4"

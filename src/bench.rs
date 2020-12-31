@@ -13,7 +13,6 @@ use criterion::*;
 
 use std::fs::{File, read_to_string};
 use std::io::{Read, sink};
-use serde_json::Value;
 
 use dict::{Dictionary, Entry};
 use rtf::parse_rtf;
@@ -21,27 +20,6 @@ use translation::format_plover_to_rtf;
 use translation_parse::format_rtf_to_plover;
 
 lazy_static! {
-  static ref DICT: Dictionary = {
-    let mut dict = Dictionary::new("Plover");
-
-    if let Ok(mut json_dict) = File::open("/Users/sammi/projects/plover/dict/di/dict.json") {
-      let mut contents = String::new();
-      if let Ok(_) = json_dict.read_to_string(&mut contents) {
-        if let Ok(json) = serde_json::from_str(&contents) {
-          if let Value::Object(map) = json {
-            for (steno, value) in map.iter() {
-              if let Value::String(translation) = value {
-                dict.add_entry(String::from(steno), translation.clone(), None);
-              }
-            }
-          }
-        }
-      }
-    }
-
-    dict
-  };
-
   static ref FIVE_ITEM_DICT: Dictionary = {
     let mut d = Dictionary::new("Plover");
 
@@ -76,11 +54,11 @@ lazy_static! {
 fn bench_dict(c: &mut Criterion) {
   let mut group = c.benchmark_group("dict");
 
-  let outline = "HROERL";
-  group.bench_function("lookup", |b| b.iter(|| DICT.lookup(&outline)));
+  let outline = "TPAEUL";
+  group.bench_function("lookup", |b| b.iter(|| TEN_ITEM_DICT.lookup(&outline)));
 
-  let word = "really";
-  group.bench_function("rev_lookup", |b| b.iter(|| DICT.rev_lookup(&word)));
+  let word = "fail";
+  group.bench_function("rev_lookup", |b| b.iter(|| TEN_ITEM_DICT.rev_lookup(&word)));
 
   let mut d = Dictionary::new("Plover");
   group.bench_function("add_entry", |b| {
@@ -141,7 +119,7 @@ fn bench_rtf(c: &mut Criterion) {
   group.sample_size(10);
 
   let file: &str = "/tmp/dict.rtf";
-  let dicts: Vec<&Dictionary> = vec![&FIVE_ITEM_DICT, &TEN_ITEM_DICT, &DICT];
+  let dicts: Vec<&Dictionary> = vec![&FIVE_ITEM_DICT, &TEN_ITEM_DICT];
 
   for dict in dicts {
     group.bench_with_input(BenchmarkId::new("write", dict.len()), dict, |b, i| {

@@ -807,7 +807,6 @@ dependencies = [
  "pyo3-file",
  "rand 0.8.0",
  "regex",
- "serde_json",
 ]
 
 [[package]]
