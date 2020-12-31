@@ -29,7 +29,6 @@ features = ["preserve_order"]
 
 [dependencies.pyo3]
 version = "0.12.4"
-features = ["extension-module"]
 
 [dev-dependencies]
 criterion = "0.3.3"
@@ -39,3 +38,7 @@ rand = "0.8.0"
 name = "bench"
 path = "src/bench.rs"
 harness = false
+
+[features]
+extension-module = ["pyo3/extension-module"]
+default = ["extension-module"]
