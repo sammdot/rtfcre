@@ -9,6 +9,10 @@
 (Rich Text Format with Court Reporting Extensions) format. The library provides
 an API similar to that of the `json` module for reading and writing dictionaries.
 
+`rtfcre` also comes with a little command-line utility that you can use to
+convert your dictionaries between Plover's native JSON format and RTF. See
+[CLI](#cli) for more information.
+
 ## Features
 
 * **Speed**: The parsing logic is written in Rust using parser combinators,
@@ -28,11 +32,23 @@ an API similar to that of the `json` module for reading and writing dictionaries
 
 ## Installation
 
+To install the library:
+
 ```
 pip install rtfcre
 ```
 
+If you just want to use this with Plover, install the
+[plover-better-rtf](https://github.com/sammdot/plover-better-rtf) plugin
+instead, since that plugin uses this library under the hood.
+
+If you want the command-line utility, go to the
+[Releases](https://github.com/sammdot/rtfcre/releases) page and download the
+binary for your system.
+
 ## Usage
+
+### Library
 
 To read an RTF dictionary:
 
@@ -96,3 +112,16 @@ dic.lookup("TKOG")  # ("dog", "TK means D")
 dic.remove_comment("TKOG")
 ```
 
+### CLI
+
+To convert an existing Plover JSON dictionary to RTF:
+
+```
+rtfcre path/to/input.json path/to/output.rtf
+```
+
+To convert an existing RTF dictionary back to Plover JSON:
+
+```
+rtfcre path/to/input.rtf path/to/output.json
+```
