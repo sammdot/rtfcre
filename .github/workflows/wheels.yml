@@ -23,6 +23,7 @@ jobs:
           path: ./target/wheels/*.whl
   publish:
     name: Publish to PyPI
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/download-artifact@v2
       - uses: pypa/gh-action-pypi-publish@master
