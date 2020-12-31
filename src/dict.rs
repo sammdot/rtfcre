@@ -146,12 +146,6 @@ impl Dictionary {
     self.entries.len()
   }
 
-  pub fn clear(&mut self) {
-    self.entries = LinkedHashMap::new();
-    self.reverse_entries = HashMap::new();
-    self.longest_key = 0;
-  }
-
   pub fn entry(&self, steno: &str) -> Option<&Entry> {
     Some(self.entries.get(steno)?)
   }
