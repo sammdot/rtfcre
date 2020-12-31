@@ -45,7 +45,7 @@ impl RtfDictionary {
       Ok(mut f) => {
         match self.dict.write(&mut f) {
           Ok(_) => Ok(()),
-          Err(err) => Err(PyValueError::new_err(format!("failed to read RTF dictionary: {:?}", err))),
+          Err(err) => Err(PyValueError::new_err(format!("failed to write RTF dictionary: {:?}", err))),
         }
       },
       Err(e) => Err(e),
