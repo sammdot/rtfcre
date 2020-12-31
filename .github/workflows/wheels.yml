@@ -1,5 +1,7 @@
 name: build
-on: release
+on:
+  release:
+    types: [released]
 jobs:
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
