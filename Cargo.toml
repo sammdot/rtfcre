@@ -2,6 +2,7 @@
 name = "rtfcre"
 version = "0.1.0"
 description = "Python library for Rich Text Format with Court Reporting Extensions (RTF/CRE) dictionaries"
+homepage = "https://github.com/sammdot/rtfcre"
 authors = ["Sammi De Guzman <sammi@sammdot.ca>"]
 edition = "2018"
 readme = "README.md"
@@ -9,9 +10,6 @@ readme = "README.md"
 [lib]
 name = "rtfcre"
 crate_type = ["cdylib"]
-
-[package.metadata.maturin]
-project-url = ["https://github.com/sammdot/rtfcre"]
 
 [dependencies]
 linked-hash-map = "0.5.3"
