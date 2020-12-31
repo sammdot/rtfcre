@@ -19,7 +19,7 @@ jobs:
       - name: Install maturin
         run: python -m pip install maturin
       - name: Build wheels
-        run: maturin build --release -i `which python`
+        run: maturin build --release -i python
       - uses: actions/upload-artifact@v2
         with:
           path: ./target/wheels/*.whl
