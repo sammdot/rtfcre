@@ -136,7 +136,7 @@ impl Dictionary {
     write!(writer, "{{\\*\\cxsystem {}}}", &self.cre_system)?;
     write!(writer, "{}", FILE_HEADER_END)?;
     for (_, entry) in &self.entries {
-      &entry.write(writer);
+      &entry.write(writer)?;
     }
     write!(writer, "{}", FILE_FOOTER)?;
     Ok(())
