@@ -1,5 +1,9 @@
 # rtfcre
 
+![pypi](https://img.shields.io/pypi/v/rtfcre)
+![python](https://img.shields.io/pypi/pyversions/rtfcre)
+![build](https://github.com/sammdot/rtfcre/workflows/build/badge.svg)
+
 `rtfcre` is a Python library for reading and writing steno dictionaries in the
 [RTF/CRE](http://www.legalxml.org/workgroups/substantive/transcripts/cre-spec.htm)
 (Rich Text Format with Court Reporting Extensions) format. The library provides
@@ -20,7 +24,7 @@ an API similar to that of the `json` module for reading and writing dictionaries
 
 * **Plover support**: Translations are converted automatically to Plover's
   native syntax (e.g. fingerspelling is represented with `{&a}` rather than
-  `{\\cxfing a}`) and converted back when writing.
+  `{\cxfing a}`) and converted back when writing.
 
 ## Installation
 
