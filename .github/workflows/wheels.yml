@@ -1,7 +1,7 @@
 name: build
 on:
   release:
-    types: [released]
+    types: [published]
 jobs:
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
