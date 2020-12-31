@@ -11,9 +11,35 @@ jobs:
       - uses: actions/checkout@v2
       - name: Build CLI tool
         run: cargo build --release --bins
-      - name: Remove dep info files
-        run: rm target/release/*.d
-      - name: Upload artifact
+      - name: Rename artifact
+        shell: python
+        run: |
+          DIR = "target/release/"
+          import os, sys
+          if os.exists(DIR + "rtfcre.exe"):
+            os.rename(DIR + "rtfcre.exe", DIR + "rtfcre-win.exe")
+          else:
+            os.rename(DIR + "rtfcre", DIR + "rtfcre-" + ("mac" if sys.platform == "darwin" else "linux"))
+      - name: Upload artifacts
         uses: actions/upload-artifact@v2
         with:
-          path: target/release/rtfcre*
+          path: target/release/rtfcre-*
+  release:
+    name: Upload release assets
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get release
+        id: get_release
+        uses: bruceadams/get-release@v1.2.2
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+      - name: Upload release assets
+        run: |
+          set -x
+          assets=()
+          for asset in artifact/*; do
+            assets+=("-a" "$asset")
+          done
+          hub release edit "${assets[@]}" -m "" "${GITHUB_REF##*/}"
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
