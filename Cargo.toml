@@ -20,13 +20,6 @@ serde_json = "1.0.59"
 version = "0.12.4"
 features = ["extension-module"]
 
-[package.metadata.rtfcre]
-keywords = ["plover", "plover_plugin"]
-requires-dist = ["plover>=4.0.0.dev8"]
-
-[package.metadata.rtfcre.options.entry_points]
-plover.dictionary = {"rtf" = "rtfcre.RtfDictionary"}
-
 [dev-dependencies]
 criterion = "0.3.3"
 rand = "0.8.0"
