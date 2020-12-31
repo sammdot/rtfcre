@@ -7,6 +7,9 @@ authors = ["Sammi De Guzman <sammi@sammdot.ca>"]
 edition = "2018"
 readme = "README.md"
 
+[package.metadata.maturin]
+classifier = ["Programming Language :: Python :: Implementation :: CPython", "Programming Language :: Python :: 3.6", "Programming Language :: Python :: 3.7", "Programming Language :: Python :: 3.8", "Programming Language :: Python :: 3.9"]
+
 [lib]
 name = "rtfcre"
 crate_type = ["cdylib"]
