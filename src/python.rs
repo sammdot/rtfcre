@@ -3,7 +3,6 @@ use crate::rtf::parse_file as parse_file;
 
 use std::collections::HashMap;
 use std::io::Read;
-use std::str::from_utf8;
 
 use pyo3::prelude::*;
 use pyo3::class::{PyMappingProtocol, PySequenceProtocol};
@@ -59,7 +58,7 @@ impl RtfDictionary {
   fn dumps(&self) -> PyResult<String> {
     let mut buf: Vec<u8> = vec![];
     match self.dict.write(&mut buf) {
-      Ok(_) => Ok(from_utf8(&buf)?.to_string()),
+      Ok(_) => Ok(String::from_utf8(buf)?),
       Err(err) => Err(PyValueError::new_err(format!("failed to write RTF dictionary: {:?}", err))),
     }
   }
