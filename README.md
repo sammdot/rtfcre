@@ -43,7 +43,7 @@ with open("dict.rtf", "rb") as file:
 rtf = r"""
 {\rtf1\ansi{\*\cxrev100}\cxdict{\*\cxsystem KittyCAT}
 {\*\cxs KAT}cat
-{\*\cxs TKOG}dog
+{\*\cxs KOU}cow
 }
 """.lstrip()
 dic = rtfcre.loads(rtf)
