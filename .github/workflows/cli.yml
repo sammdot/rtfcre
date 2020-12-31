@@ -17,8 +17,8 @@ jobs:
         shell: python
         run: |
           DIR = "target/release/"
-          import os, sys
-          if os.exists(DIR + "rtfcre.exe"):
+          import os, os.path, sys
+          if os.path.exists(DIR + "rtfcre.exe"):
             os.rename(DIR + "rtfcre.exe", DIR + "rtfcre-win.exe")
           else:
             os.rename(DIR + "rtfcre", DIR + "rtfcre-" + ("mac" if sys.platform == "darwin" else "linux"))
