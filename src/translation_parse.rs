@@ -6,6 +6,7 @@ use nom::combinator::{opt, recognize};
 use nom::multi::separated_list1;
 use nom::sequence::tuple;
 
+use std::char::from_u32;
 use regex::Regex;
 use lazy_static::lazy_static;
 
@@ -152,7 +153,7 @@ fn dspace(input: &str) -> IResult<&str, Object> {
 
 fn unicode(input: &str) -> IResult<&str, Object> {
   let (input, (_, unicode, _)) = tuple((tag("\\u"), positive_number, opt(tag(" "))))(input)?;
-  Ok((input, Object::RawString(char::from_u32(unicode).unwrap().to_string())))
+  Ok((input, Object::RawString(from_u32(unicode).unwrap().to_string())))
 }
 
 fn hyphen(input: &str) -> IResult<&str, Object> {

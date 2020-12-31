@@ -1,5 +1,3 @@
-#![feature(assoc_char_funcs)]
-
 mod dict;
 mod rtf;
 mod translation_model;

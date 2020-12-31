@@ -1,5 +1,3 @@
-#![feature(assoc_char_funcs)]
-
 #[macro_use]
 mod dict;
 #[macro_use]
