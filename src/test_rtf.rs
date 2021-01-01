@@ -25,6 +25,11 @@ lazy_static! {
     {\*\cxs PHROLG}{\*\cxplvrcmd lookup}
     {\*\cxs PHREUT}{\*\cxplvrcmd quit}
   }"#.to_string();
+
+  static ref RTF_WITH_NON_ASCII: String = r#"
+  {\rtf1\ansi{\*\cxrev100}\cxdict{\*\cxsystem Test}
+    {\*\cxs \u12615\u12636\u12593\u12599}\u50864\u47532\u44032
+  }"#.to_string();
 }
 
 macro_rules! check_rtf {
@@ -63,5 +68,12 @@ fn test_parse_rtf_with_comments() {
 fn test_parse_rtf_with_commands() {
   check_rtf!(&RTF_WITH_COMMANDS, |dict: Dictionary| {
     assert_eq!(dict.lookup("PHROLG"), Some("{plover:lookup}".to_string()));
+  })
+}
+
+#[test]
+fn test_parse_rtf_with_non_ascii() {
+  check_rtf!(&RTF_WITH_NON_ASCII, |dict: Dictionary| {
+    assert_eq!(dict.lookup("ㅇㅜㄱㄷ"), Some("우리가".to_string()));
   })
 }
