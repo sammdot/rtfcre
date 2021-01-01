@@ -47,7 +47,10 @@ impl Entry {
 
   pub fn write(&self, writer: &mut dyn io::Write) -> Result<(), io::Error> {
     write!(writer, "{{\\*\\cxs {}}}{}{}\n",
-      self.steno, format_plover_to_rtf(&self.translation),
+      self.steno.chars().map(|c|
+        if (c as u32) > 255 { format!("\\u{} ", c as u32) }
+        else { String::from(c) }).collect::<Vec<String>>().join(""),
+      format_plover_to_rtf(&self.translation),
       match &self.metadata {
         Some(EntryMetadata { comment: Some(comment) }) =>
           format!("{{\\*\\cxcomment {}}}", comment),
