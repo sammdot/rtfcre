@@ -100,7 +100,7 @@ impl Dictionary {
       },
     );
 
-    let key_length = steno.chars().filter(|c| *c == '/').count();
+    let key_length = steno.chars().filter(|c| *c == '/').count() + 1;
     if key_length > self.longest_key {
       self.longest_key = key_length;
     }
