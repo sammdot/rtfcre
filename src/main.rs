@@ -22,7 +22,7 @@ use structopt::StructOpt;
 use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
 
 use crate::dict::{Dictionary, Entry};
-use crate::rtf::parse_rtf;
+use crate::rtf::parse_file;
 
 #[derive(StructOpt, Debug)]
 struct CommandLine {
@@ -102,7 +102,13 @@ fn run_main() -> Result<(), RtfCreError> {
   input.read_to_string(&mut contents)?;
   match direction {
     Direction::RtfToJson => {
-      let dict = parse_rtf(&contents).ok_or(RtfCreError::RtfParseError)?;
+      let dict = match parse_file(&contents) {
+        Err(e) => {
+          println!("{:?}", e);
+          Err(RtfCreError::RtfParseError)
+        },
+        Ok((_, d)) => Ok(d),
+      }?;
       let mut map = serde_json::Map::with_capacity(dict.len());
       for (steno, Entry { translation, .. }) in dict.entries {
         map.insert(steno, Value::String(translation));
