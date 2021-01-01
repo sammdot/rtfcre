@@ -62,8 +62,6 @@ fn test_parse_rtf_with_comments() {
 #[test]
 fn test_parse_rtf_with_commands() {
   check_rtf!(&RTF_WITH_COMMANDS, |dict: Dictionary| {
-    assert_eq!(dict.len(), 2);
-
     assert_eq!(dict.lookup("PHROLG"), Some("{plover:lookup}".to_string()));
   })
 }
