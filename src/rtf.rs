@@ -127,7 +127,7 @@ pub fn parse_file(input: &str) -> IResult<&str, Dictionary> {
       many1(alt((group, unicode, control_word, control_symbol, text))),
       tag("}")))),
     recognize(many_till(alt((group, unicode, control_word, control_symbol, text)), tag(r"{\*\cxs "))),
-    many1(steno_entry),
+    many0(steno_entry),
     last_steno_entry
     ))(input)?;
   entries.push(last_entry);
