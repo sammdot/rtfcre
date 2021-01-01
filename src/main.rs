@@ -24,6 +24,12 @@ use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
 use crate::dict::{Dictionary, Entry};
 use crate::rtf::parse_file;
 
+lazy_static!{
+  static ref VERSION_STRING: String =
+    format!("rtfcre {0} (https://github.com/sammdot/rtfcre)",
+      env!("CARGO_PKG_VERSION"));
+}
+
 #[derive(StructOpt, Debug)]
 struct CommandLine {
   #[structopt(parse(from_os_str))]
@@ -119,7 +125,7 @@ fn run_main() -> Result<(), RtfCreError> {
       }
     },
     Direction::JsonToRtf => {
-      let mut dict = Dictionary::new("");
+      let mut dict = Dictionary::new(&VERSION_STRING);
       match serde_json::from_str(&contents) {
         Ok(Value::Object(map)) => {
           for (steno, value) in map.iter() {
