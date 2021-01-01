@@ -118,19 +118,33 @@ fn cxsystem(input: &str) -> IResult<&str, String> {
   Ok((input, system.join("")))
 }
 
+fn no_entries(input: &str) -> IResult<&str, Vec<(String, String, Option<String>)>> {
+  let (input, _) = recognize(many_till(alt((group, unicode, control_word, control_symbol, text)), tag(r"}")))(input)?;
+  Ok((input, vec![]))
+}
+
+fn some_entries(input: &str) -> IResult<&str, Vec<(String, String, Option<String>)>> {
+  let (input, (_, mut entries, last_entry)) = tuple((
+            recognize(many_till(alt((group, unicode, control_word, control_symbol, text)), tag(r"{\*\cxs "))),
+    many0(steno_entry),
+    last_steno_entry,
+        ))(input)?;
+  entries.push(last_entry);
+  Ok((input, entries))
+}
+
 pub fn parse_file(input: &str) -> IResult<&str, Dictionary> {
-  let (input, (_, cxsystem, _, _, mut entries, last_entry)) = tuple((
+  let (input, (_, cxsystem, _, entries)) = tuple((
     tag(r"{\rtf1\ansi{\*\cxrev100}\cxdict"),
     cxsystem,
     opt(tuple((
       tag(r"{\stylesheet"),
       many1(alt((group, unicode, control_word, control_symbol, text))),
       tag("}")))),
-    recognize(many_till(alt((group, unicode, control_word, control_symbol, text)), tag(r"{\*\cxs "))),
-    many0(steno_entry),
-    last_steno_entry
+    alt((
+      some_entries,
+      no_entries)),
     ))(input)?;
-  entries.push(last_entry);
 
   let mut dict = Dictionary::new(&cxsystem);
   for (steno, translation, comment) in entries {

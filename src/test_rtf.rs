@@ -11,6 +11,9 @@ lazy_static! {
     {\*\cxs TEFT/-G}testing
   }"#.to_string();
 
+  static ref RTF_EMPTY: String = r#"
+  {\rtf1\ansi{\*\cxrev100}\cxdict{\*\cxsystem Test}}"#.to_string();
+
   static ref RTF_WITH_COMMENTS: String = r#"
   {\rtf1\ansi{\*\cxrev100}\cxdict{\*\cxsystem Test}
     {\*\cxs TEFT}test
@@ -48,6 +51,13 @@ fn test_parse_rtf() {
     assert_eq!(dict.cre_system, "Test");
 
     assert_eq!(dict.lookup("TEFGT"), Some("testing".to_string()));
+  })
+}
+
+#[test]
+fn test_parse_empty_rtf() {
+  check_rtf!(&RTF_EMPTY, |dict: Dictionary| {
+    assert_eq!(dict.len(), 0);
   })
 }
 
