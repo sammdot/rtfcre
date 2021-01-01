@@ -859,7 +859,7 @@ dependencies = [
 
 [[package]]
 name = "rtfcre"
-version = "1.2.0"
+version = "1.2.1"
 dependencies = [
  "criterion",
  "lazy_static",
