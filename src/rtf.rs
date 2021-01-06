@@ -1,7 +1,7 @@
 use nom::IResult;
 use nom::branch::alt;
 use nom::bytes::complete::{is_not, tag};
-use nom::character::complete::{alpha1, digit1, one_of};
+use nom::character::complete::{alpha1, digit1, multispace0, one_of};
 use nom::combinator::{opt, recognize};
 use nom::multi::{many0, many1, many_till};
 use nom::sequence::tuple;
@@ -112,10 +112,10 @@ fn last_steno_entry(input: &str) -> IResult<&str, (String, String, Option<String
 
 fn cxsystem(input: &str) -> IResult<&str, String> {
   let (input, (_, system, _)) = tuple((
-    tag(r"{\*\cxsystem "),
+    tag(r"{\*\cxsystem"),
     many0(alt((group, unicode, control_word, control_symbol, text))),
     tag("}")))(input)?;
-  Ok((input, system.join("")))
+  Ok((input, system.join("").trim().to_string()))
 }
 
 fn no_entries(input: &str) -> IResult<&str, Vec<(String, String, Option<String>)>> {
@@ -134,9 +134,11 @@ fn some_entries(input: &str) -> IResult<&str, Vec<(String, String, Option<String
 }
 
 pub fn parse_file(input: &str) -> IResult<&str, Dictionary> {
-  let (input, (_, cxsystem, _, entries)) = tuple((
+  let (input, (_, _, cxsystem, _, _, entries)) = tuple((
     tag(r"{\rtf1\ansi{\*\cxrev100}\cxdict"),
+    multispace0,
     cxsystem,
+    multispace0,
     opt(tuple((
       tag(r"{\stylesheet"),
       many1(alt((group, unicode, control_word, control_symbol, text))),
