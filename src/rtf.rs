@@ -134,15 +134,18 @@ fn some_entries(input: &str) -> IResult<&str, Vec<(String, String, Option<String
 }
 
 pub fn parse_file(input: &str) -> IResult<&str, Dictionary> {
-  let (input, (_, _, cxsystem, _, _, entries)) = tuple((
-    tag(r"{\rtf1\ansi{\*\cxrev100}\cxdict"),
-    multispace0,
+  let (input, (_, cxsystem, _, entries)) = tuple((
+    recognize(tuple((
+      tag("{"), multispace0, tag(r"\rtf1"), multispace0, tag(r"\ansi"), multispace0,
+      tag(r"{\*\cxrev100}"), multispace0, tag(r"\cxdict"), multispace0))),
     cxsystem,
-    multispace0,
-    opt(tuple((
-      tag(r"{\stylesheet"),
-      many1(alt((group, unicode, control_word, control_symbol, text))),
-      tag("}")))),
+    recognize(tuple((
+      multispace0,
+      opt(tuple((
+        tag(r"{\stylesheet"),
+        many1(alt((group, unicode, control_word, control_symbol, text))),
+        tag("}")))),
+    ))),
     alt((
       some_entries,
       no_entries)),
