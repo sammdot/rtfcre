@@ -136,6 +136,7 @@ fn some_entries(input: &str) -> IResult<&str, Vec<(String, String, Option<String
 pub fn parse_file(input: &str) -> IResult<&str, Dictionary> {
   let (input, (_, cxsystem, _, entries)) = tuple((
     recognize(tuple((
+      multispace0,
       tag("{"), multispace0, tag(r"\rtf1"), multispace0, tag(r"\ansi"), multispace0,
       tag(r"{\*\cxrev100}"), multispace0, tag(r"\cxdict"), multispace0))),
     cxsystem,
