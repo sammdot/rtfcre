@@ -33,6 +33,15 @@ lazy_static! {
   {\rtf1\ansi{\*\cxrev100}\cxdict{\*\cxsystem Test}
     {\*\cxs \u12615\u12636\u12593\u12599}\u50864\u47532\u44032
   }"#.to_string();
+
+  static ref RTF_WITH_WEIRD_SPACING: String = r#"
+  {
+    \rtf1\ansi
+    {\*\cxrev100}
+    \cxdict
+    {\*\cxsystem Test}
+    {\*\cxs TEFT}test
+  }"#.to_string();
 }
 
 macro_rules! check_rtf {
@@ -85,5 +94,12 @@ fn test_parse_rtf_with_commands() {
 fn test_parse_rtf_with_non_ascii() {
   check_rtf!(&RTF_WITH_NON_ASCII, |dict: Dictionary| {
     assert_eq!(dict.lookup("ㅇㅜㄱㄷ"), Some("우리가".to_string()));
+  })
+}
+
+#[test]
+fn test_parse_rtf_with_weird_spacing() {
+  check_rtf!(&RTF_WITH_WEIRD_SPACING, |dict: Dictionary| {
+    assert_eq!(dict.lookup("TEFT"), Some("test".to_string()));
   })
 }
