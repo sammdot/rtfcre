@@ -53,13 +53,19 @@ macro_rules! check_rtf {
   }
 }
 
+macro_rules! check_tl {
+  ($dict:expr, $steno:literal => $translation:literal) => {
+    assert_eq!($dict.lookup($steno), Some($translation.to_string()));
+  }
+}
+
 #[test]
 fn test_parse_rtf() {
   check_rtf!(&RTF, |dict: Dictionary| {
     assert_eq!(dict.len(), 5);
     assert_eq!(dict.cre_system, "Test");
 
-    assert_eq!(dict.lookup("TEFGT"), Some("testing".to_string()));
+    check_tl!(dict, "TEFGT" => "testing");
   })
 }
 
@@ -86,20 +92,20 @@ fn test_parse_rtf_with_comments() {
 #[test]
 fn test_parse_rtf_with_commands() {
   check_rtf!(&RTF_WITH_COMMANDS, |dict: Dictionary| {
-    assert_eq!(dict.lookup("PHROLG"), Some("{plover:lookup}".to_string()));
+    check_tl!(dict, "PHROLG" => "{plover:lookup}");
   })
 }
 
 #[test]
 fn test_parse_rtf_with_non_ascii() {
   check_rtf!(&RTF_WITH_NON_ASCII, |dict: Dictionary| {
-    assert_eq!(dict.lookup("ㅇㅜㄱㄷ"), Some("우리가".to_string()));
+    check_tl!(dict, "ㅇㅜㄱㄷ" => "우리가");
   })
 }
 
 #[test]
 fn test_parse_rtf_with_weird_spacing() {
   check_rtf!(&RTF_WITH_WEIRD_SPACING, |dict: Dictionary| {
-    assert_eq!(dict.lookup("TEFT"), Some("test".to_string()));
+    check_tl!(dict, "TEFT" => "test");
   })
 }
