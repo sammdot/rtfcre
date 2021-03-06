@@ -18,6 +18,7 @@ use std::path::PathBuf;
 use std::process::exit;
 use std::str::FromStr;
 
+use encoding_rs::WINDOWS_1252;
 use serde_json::Value;
 use structopt::StructOpt;
 use termcolor::{Color, ColorChoice, ColorSpec, StandardStream, WriteColor};
@@ -135,8 +136,11 @@ fn run_main() -> Result<(), RtfCreError> {
 
       let mut input = File::open(args.input)?;
       let mut output = File::create(output)?;
-      let mut contents = String::new();
-      input.read_to_string(&mut contents)?;
+      let mut buf = Vec::new();
+      input.read_to_end(&mut buf)?;
+      let (decoded, _, _) = WINDOWS_1252.decode(&buf[..]);
+      let contents = String::from(decoded);
+      println!("{:?}", contents);
       match direction {
         Direction::RtfToJson => {
           let dict = match parse_file(&contents) {
