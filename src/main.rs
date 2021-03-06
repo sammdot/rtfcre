@@ -16,7 +16,7 @@ use std::io;
 use std::io::{Read, Write};
 use std::path::PathBuf;
 use std::process::exit;
-use std::str::FromStr;
+use std::str::{FromStr, from_utf8};
 
 use encoding_rs::WINDOWS_1252;
 use serde_json::Value;
@@ -138,9 +138,13 @@ fn run_main() -> Result<(), RtfCreError> {
       let mut output = File::create(output)?;
       let mut buf = Vec::new();
       input.read_to_end(&mut buf)?;
-      let (decoded, _, _) = WINDOWS_1252.decode(&buf[..]);
-      let contents = String::from(decoded);
-      println!("{:?}", contents);
+      let contents = match direction {
+        Direction::RtfToJson => {
+          let (decoded, _, _) = WINDOWS_1252.decode(&buf[..]);
+          String::from(decoded)
+        },
+        Direction::JsonToRtf => from_utf8(buf.as_slice()).unwrap().to_string()
+      };
       match direction {
         Direction::RtfToJson => {
           let dict = match parse_file(&contents) {
@@ -168,7 +172,13 @@ fn run_main() -> Result<(), RtfCreError> {
                   dict.add_entry(String::from(steno), translation.clone(), None);
                 }
               }
-              dict.write(&mut output)?;
+
+              let mut buf = Vec::new();
+              dict.write(&mut buf)?;
+              let out = std::str::from_utf8(buf.as_slice()).unwrap();
+              let (encoded, _, _) = WINDOWS_1252.encode(out);
+              output.write(&encoded)?;
+
               Ok(())
             },
             _ => Err(RtfCreError::JsonParseError),
