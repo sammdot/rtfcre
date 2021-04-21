@@ -132,14 +132,14 @@ fn test_punct() {
 fn test_attach() {
   // \cxds: Delete Space
   check_tl!("{^}", "\\cxds ");
-  check_tl!("{^ing}", "\\cxds ing");
-  check_tl!("{pre^}", "pre\\cxds ");
-  check_tl!("{^...^}", "\\cxds ...\\cxds ");
+  check_tl!("{^ing}", "{\\*\\cxplvrortho}\\cxds ing");
+  check_tl!("{pre^}", "{\\*\\cxplvrortho}pre\\cxds ");
+  check_tl!("{^...^}", "{\\*\\cxplvrortho}\\cxds ...\\cxds ");
 
   check_tl!("{:attach}", "\\cxds ");
-  check_tl!("{:attach:^ing}", "\\cxds ing");
-  check_tl!("{:attach:pre^}", "pre\\cxds ");
-  check_tl!("{:attach:...}", "\\cxds ...\\cxds ");
+  check_tl!("{:attach:^ing}", "{\\*\\cxplvrortho}\\cxds ing");
+  check_tl!("{:attach:pre^}", "{\\*\\cxplvrortho}pre\\cxds ");
+  check_tl!("{:attach:...}", "{\\*\\cxplvrortho}\\cxds ...\\cxds ");
 
   check_tl!("{^ ^}", "\\~");
 }
@@ -187,14 +187,14 @@ fn test_force_cap() {
 #[test]
 fn test_carry_cap() {
   // \cxplvrccap: Carry CAPitalization
-  check_tl!("{~|^-^}", "{\\*\\cxplvrccap}\\cxds -\\cxds ");
-  check_tl!("{~|^-esque}", "{\\*\\cxplvrccap}\\cxds -esque");
-  check_tl!("{~|un-^}", "{\\*\\cxplvrccap}un-\\cxds ");
+  check_tl!("{~|^-^}", "{\\*\\cxplvrccap}{\\*\\cxplvrortho}\\cxds -\\cxds ");
+  check_tl!("{~|^-esque}", "{\\*\\cxplvrccap}{\\*\\cxplvrortho}\\cxds -esque");
+  check_tl!("{~|un-^}", "{\\*\\cxplvrccap}{\\*\\cxplvrortho}un-\\cxds ");
   check_tl!("{~|5}", "{\\*\\cxplvrccap}5");
 
-  check_tl!("{:carry_capitalize:^-^}", "{\\*\\cxplvrccap}\\cxds -\\cxds ");
-  check_tl!("{:carry_capitalize:^-esque}", "{\\*\\cxplvrccap}\\cxds -esque");
-  check_tl!("{:carry_capitalize:un-^}", "{\\*\\cxplvrccap}un-\\cxds ");
+  check_tl!("{:carry_capitalize:^-^}", "{\\*\\cxplvrccap}{\\*\\cxplvrortho}\\cxds -\\cxds ");
+  check_tl!("{:carry_capitalize:^-esque}", "{\\*\\cxplvrccap}{\\*\\cxplvrortho}\\cxds -esque");
+  check_tl!("{:carry_capitalize:un-^}", "{\\*\\cxplvrccap}{\\*\\cxplvrortho}un-\\cxds ");
   check_tl!("{:carry_capitalize:5}", "{\\*\\cxplvrccap}5");
 }
 
@@ -209,8 +209,8 @@ fn test_currency() {
 
 #[test]
 fn test_newline() {
-  check_tl!("{^\\n^}", "\\cxds \\n\\cxds ");
-  check_tl!("{^\\t^}", "\\cxds \\t\\cxds ");
+  check_tl!("{^\\n^}", "{\\*\\cxplvrortho}\\cxds \\n\\cxds ");
+  check_tl!("{^\\t^}", "{\\*\\cxplvrortho}\\cxds \\t\\cxds ");
 }
 
 #[test]

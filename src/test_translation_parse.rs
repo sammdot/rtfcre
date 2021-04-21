@@ -105,9 +105,13 @@ fn test_punct() {
 #[test]
 fn test_attach() {
   check_tl!("\\cxds ", "{^}");
-  check_tl!("\\cxds ing", "{^ing}");
-  check_tl!("pre\\cxds ", "{pre^}");
-  check_tl!("\\cxds ...\\cxds ", "{^...^}");
+  check_tl!("\\cxds ing", "{^}ing");
+  check_tl!("pre\\cxds ", "pre{^}");
+  check_tl!("\\cxds ...\\cxds ", "{^}...{^}");
+
+  check_tl!("{\\*\\cxplvrortho}\\cxds ing", "{^ing}");
+  check_tl!("{\\*\\cxplvrortho}pre\\cxds ", "{pre^}");
+  check_tl!("{\\*\\cxplvrortho}\\cxds ...\\cxds ", "{^...^}");
 }
 
 #[test]
@@ -138,10 +142,14 @@ fn test_force_cap() {
 
 #[test]
 fn test_carry_cap() {
-  check_tl!("{\\*\\cxplvrccap}\\cxds -\\cxds ", "{~|^-^}");
-  check_tl!("{\\*\\cxplvrccap}\\cxds -esque", "{~|^-esque}");
-  check_tl!("{\\*\\cxplvrccap}un-\\cxds ", "{~|un-^}");
-  check_tl!("{\\*\\cxplvrccap}5", "{~|5}");
+  check_tl!("{\\*\\cxplvrccap}{\\*\\cxplvrortho}\\cxds -\\cxds ", "{~|^-^}");
+  check_tl!("{\\*\\cxplvrccap}{\\*\\cxplvrortho}\\cxds -esque", "{~|^-esque}");
+  check_tl!("{\\*\\cxplvrccap}{\\*\\cxplvrortho}un-\\cxds ", "{~|un-^}");
+
+  check_tl!("{\\*\\cxplvrccap}\\cxds -\\cxds ", "{~|}{^}-{^}");
+  check_tl!("{\\*\\cxplvrccap}\\cxds -esque", "{~|}{^}-esque");
+  check_tl!("{\\*\\cxplvrccap}un-\\cxds ", "{~|}un-{^}");
+  check_tl!("{\\*\\cxplvrccap}5", "{~|}5");
 }
 
 #[test]
@@ -152,8 +160,8 @@ fn test_currency() {
 
 #[test]
 fn test_newline() {
-  check_tl!("\\cxds \\n\\cxds ", "{^\\n^}");
-  check_tl!("\\cxds \\t\\cxds ", "{^\\t^}");
+  check_tl!("{\\*\\cxplvrortho}\\cxds \\n\\cxds ", "{^\\n^}");
+  check_tl!("{\\*\\cxplvrortho}\\cxds \\t\\cxds ", "{^\\t^}");
 }
 
 #[test]
