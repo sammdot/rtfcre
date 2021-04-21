@@ -58,6 +58,7 @@ fn no_arg_group(input: &str) -> IResult<&str, Object> {
     "cxplvrfcw" => Object::ForceCapitalizeWord,
     "cxplvrrtfcw" => Object::RetroForceCapitalizeWord,
     "cxplvrspc" => Object::SpaceMode(None),
+    "cxplvrortho" => Object::OrthoAttach,
     _ => Object::RawString("".to_string()),
   }))
 }
@@ -247,7 +248,9 @@ fn fix_attach(translation: String) -> String {
 }
 
 pub fn format_rtf_to_plover(tl: &str) -> String {
-  fix_attach(parse_translation(tl).iter()
+  let mut ortho_attach = false;
+
+  let items = parse_translation(tl).iter()
     .map(|obj| {
       match obj {
         Object::Paragraph(mode) => format!("{{#return}}{{#return}}{}",
@@ -287,6 +290,10 @@ pub fn format_rtf_to_plover(tl: &str) -> String {
           Object::ResetCaseAndSpace => "{mode:reset}",
           Object::SpaceMode(None) => "{mode:reset_space}",
           Object::AttachRaw => "{^}",
+          Object::OrthoAttach => {
+            ortho_attach = true;
+            ""
+          },
           Object::CarryCapRaw(_) => "{~|}",
           Object::ForceCapitalize => "{-|}",
           Object::ForceLowercase => "{>}",
@@ -299,5 +306,11 @@ pub fn format_rtf_to_plover(tl: &str) -> String {
       }
     })
     .collect::<Vec<String>>()
-    .join(""))
+    .join("");
+
+  if ortho_attach {
+    fix_attach(items)
+  } else {
+    items
+  }
 }

@@ -39,6 +39,7 @@ pub enum Object {
   CaseMode(Case),
   SpaceMode(Option<String>),
   AttachRaw,
+  OrthoAttach,
   AttachPrefix(String),
   AttachSuffix(String),
   AttachInfix(String),
