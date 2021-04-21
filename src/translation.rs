@@ -218,6 +218,7 @@ fn operator(input: &str) -> IResult<&str, Object> {
       )), tag("}")))(input)?;
   Ok((input, match oper {
     "^" => Object::AttachRaw,
+    "$" => Object::WordEnd,
     "*" => Object::RetroToggleStar,
     "*+" => Object::RepeatLastStroke,
     "*?" => Object::RetroInsertSpace,
@@ -370,6 +371,7 @@ pub fn format_plover_to_rtf(tl: &str) -> String {
         _ => match obj {
           Object::Noop => "{\\*\\cxplvrnop}",
           Object::Cancel => "{\\*\\cxplvrcancel}",
+          Object::WordEnd => "{\\*\\cxplvrwdend}",
           Object::DeleteStroke => "\\cxdstroke ",
           Object::RepeatLastStroke => "{\\*\\cxplvrrpt}",
           Object::RetroToggleStar => "{\\*\\cxplvrast}",

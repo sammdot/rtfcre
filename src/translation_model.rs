@@ -18,6 +18,7 @@ pub enum ParagraphMode {
 pub enum Object {
   Cancel,
   Noop,
+  WordEnd,
   DeleteStroke,
   RepeatLastStroke,
   RetroToggleStar,

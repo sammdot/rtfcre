@@ -41,6 +41,7 @@ fn no_arg_group(input: &str) -> IResult<&str, Object> {
   Ok((input, match label {
     "cxplvrnop" => Object::Noop,
     "cxplvrcancel" => Object::Cancel,
+    "cxplvrwdend" => Object::WordEnd,
     "cxplvrast" => Object::RetroToggleStar,
     "cxplvrrpt" => Object::RepeatLastStroke,
     "cxplvrrtisp" => Object::RetroInsertSpace,
@@ -280,6 +281,7 @@ pub fn format_rtf_to_plover(tl: &str) -> String {
         _ => match obj {
           Object::Cancel => "{}",
           Object::Noop => "{#}",
+          Object::WordEnd => "{$}",
           Object::DeleteStroke => "=undo",
           Object::RepeatLastStroke => "{*+}",
           Object::RetroToggleStar => "{*}",
