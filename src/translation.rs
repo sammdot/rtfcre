@@ -360,9 +360,9 @@ pub fn format_plover_to_rtf(tl: &str) -> String {
         Object::AttachPrefix(string) => format!("{{\\*\\cxplvrortho}}{}\\cxds ", string),
         Object::AttachInfix(string) => format!("{{\\*\\cxplvrortho}}\\cxds {}\\cxds ", string),
         Object::CarryCapRaw(string) => format!("{{\\*\\cxplvrccap}}{}", string),
-        Object::CarryCapSuffix(string) => format!("{{\\*\\cxplvrccap}}\\cxds {}", string),
-        Object::CarryCapPrefix(string) => format!("{{\\*\\cxplvrccap}}{}\\cxds ", string),
-        Object::CarryCapInfix(string) => format!("{{\\*\\cxplvrccap}}\\cxds {}\\cxds ", string),
+        Object::CarryCapSuffix(string) => format!("{{\\*\\cxplvrccap}}{{\\*\\cxplvrortho}}\\cxds {}", string),
+        Object::CarryCapPrefix(string) => format!("{{\\*\\cxplvrccap}}{{\\*\\cxplvrortho}}{}\\cxds ", string),
+        Object::CarryCapInfix(string) => format!("{{\\*\\cxplvrccap}}{{\\*\\cxplvrortho}}\\cxds {}\\cxds ", string),
         Object::Currency(left, right) =>
           format!("{{\\*\\cxplvrcurr {}c{}}}",
             match left { Some(x) => x, None => "" },
