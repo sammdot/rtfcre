@@ -153,7 +153,10 @@ pub fn parse_file(input: &str) -> IResult<&str, Dictionary> {
     ))(input)?;
 
   let mut dict = Dictionary::new(&cxsystem);
-  for (steno, translation, comment) in entries {
+  for (mut steno, translation, comment) in entries {
+    if steno.contains("#") {
+      steno = steno.replace("#", "")
+    }
     dict.add_entry(steno, format_rtf_to_plover(translation.trim()), comment);
   }
   Ok((input, dict))
