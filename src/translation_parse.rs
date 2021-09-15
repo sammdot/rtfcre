@@ -98,7 +98,7 @@ fn arg_group(input: &str) -> IResult<&str, Object> {
 fn punc_group(input: &str) -> IResult<&str, Object> {
   let (input, (_, _, punct, _)) = tuple((
     tag("{\\cxp"), opt(tag(" ")), take_until("}"), tag("}")))(input)?;
-  Ok((input, Object::Punctuation(punct.to_string())))
+  Ok((input, Object::Punctuation(punct.trim_end().to_string())))
 }
 
 fn fing_group(input: &str) -> IResult<&str, Object> {
