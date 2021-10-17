@@ -95,6 +95,12 @@ fn arg_group(input: &str) -> IResult<&str, Object> {
   }))
 }
 
+fn auto_group(input: &str) -> IResult<&str, Object> {
+  let (input, (_, _, text, _)) = tuple((
+    tag("{\\cxa"), opt(tag(" ")), take_until("}"), tag("}")))(input)?;
+  Ok((input, Object::RawString(text.to_string())))
+}
+
 fn punc_group(input: &str) -> IResult<&str, Object> {
   let (input, (_, _, punct, _)) = tuple((
     tag("{\\cxp"), opt(tag(" ")), take_until("}"), tag("}")))(input)?;
@@ -192,6 +198,7 @@ fn objects(input: &str) -> IResult<&str, Vec<Object>> {
     long_group,
     arg_group,
     no_arg_group,
+    auto_group,
     punc_group,
     fing_group,
     stit_group,

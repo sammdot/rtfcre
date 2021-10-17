@@ -97,6 +97,11 @@ fn test_key_combo() {
 }
 
 #[test]
+fn test_auto() {
+  check_tl!("{\\cxa Q. }", "Q. ");
+}
+
+#[test]
 fn test_punct() {
   check_tl!("{\\cxp. }", "{.}");
   check_tl!("{\\cxp, }", "{,}");
