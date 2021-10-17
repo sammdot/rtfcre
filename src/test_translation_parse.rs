@@ -86,8 +86,8 @@ fn test_mode() {
 
 #[test]
 fn test_par() {
-  check_tl!("\\par\\s0 ", "{#return}{#return}");
-  check_tl!("\\par\\s1 ", "{#return}{#return}    ");
+  check_tl!("\\par\\s0 ", "{^\\n\\n^}");
+  check_tl!("\\par\\s1 ", "{^\\n\\n^}    ");
 }
 
 #[test]
