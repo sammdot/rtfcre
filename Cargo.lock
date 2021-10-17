@@ -869,7 +869,7 @@ dependencies = [
 
 [[package]]
 name = "rtfcre"
-version = "2.0.0-dev4"
+version = "2.0.1"
 dependencies = [
  "criterion",
  "encoding_rs",

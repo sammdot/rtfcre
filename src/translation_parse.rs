@@ -261,7 +261,7 @@ pub fn format_rtf_to_plover(tl: &str) -> String {
   let items = parse_translation(tl).iter()
     .map(|obj| {
       match obj {
-        Object::Paragraph(mode) => format!("{{^\\n\\n^}}{}",
+        Object::Paragraph(mode) => format!("{{^\n\n^}}{}",
           match mode { ParagraphMode::Default => "", ParagraphMode::Contin => "    " }),
         Object::Fingerspell(letters) => format!("{{&{}}}", letters),
         Object::Stitch(letters) => format!("{{:stitch:{}}}", letters),
